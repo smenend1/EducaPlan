@@ -3,161 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EducaPlan PWA - ESO Catalunya LOMLOE</title>
-    <!-- Tailwind CSS per a un disseny net, professional i scannable -->
+    <title>EducaPlan PWA Pro - ESO Catalunya</title>
+    <!-- Tailwind CSS v4 para un diseño moderno y escalable -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .tabs-content { display: none; }
         .tabs-content.active { display: block; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-    <!-- HEADER & NAVEGACIÓ -->
-    <header class="bg-indigo-950 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+    <!-- HEADER PRINCIPAL -->
+    <header class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b border-indigo-500/20">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col lg:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <span class="text-2xl">🧠</span>
+                <span class="text-3xl">🧠</span>
                 <div>
-                    <h1 class="text-xl font-black tracking-tight text-amber-400">EducaPlan PWA</h1>
-                    <p class="text-xs text-indigo-200 font-medium">Currículum Oficial d'ESO (Catalunya) • Decrets 175/2022 i 150/2017</p>
+                    <h1 class="text-2xl font-black tracking-tight bg-gradient-to-r from-amber-400 to-indigo-300 bg-clip-text text-transparent">EducaPlan PWA Pro</h1>
+                    <p class="text-xs text-slate-400 font-medium">Àmbit d'ESO • Decret 175/2022 i Desenvolupament Avançat DUA Decret 150/2017</p>
                 </div>
             </div>
-            <nav class="flex space-x-1 bg-indigo-900 p-1 rounded-lg text-xs md:text-sm">
-                <button onclick="switchTab('tab-diseñador')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-white bg-indigo-600">1. Dissenyador IA</button>
-                <button onclick="switchTab('tab-cuaderno')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-indigo-300 hover:text-white">2. Quadern</button>
-                <button onclick="switchTab('tab-banco')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-indigo-300 hover:text-white">3. Recursos</button>
-                <button onclick="switchTab('tab-aula')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-indigo-300 hover:text-white">4. A l'Aula</button>
+            <nav class="flex flex-wrap gap-1 bg-slate-950 p-1.5 rounded-xl text-xs md:text-sm">
+                <button onclick="switchTab('tab-diseñador')" class="tab-btn px-3.5 py-2 rounded-lg font-bold text-white bg-indigo-600 transition">1. Dissenyador i Plantilles</button>
+                <button onclick="switchTab('tab-rubrica')" class="tab-btn px-3.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition">2. Generador de Rúbriques</button>
+                <button onclick="switchTab('tab-cuaderno')" class="tab-btn px-3.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition">3. Quadern d'Aula</button>
+                <button onclick="switchTab('tab-banco')" class="tab-btn px-3.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition">4. Recursos</button>
+                <button onclick="switchTab('tab-aula')" class="tab-btn px-3.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition">5. Mode A l'Aula</button>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-4 md:p-6">
+    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
 
-        <!-- ================= VARIANTE 1: EL DISEÑADOR DE CLASES (PLANTILLA OFICIAL LOMLOE) ================= -->
+        <!-- ================= VARIANTE 1: DISSENYADOR & PLANTILLES OFICIALS ================= -->
         <section id="tab-diseñador" class="tabs-content active space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-                    <span>📋</span> Programació Didàctica per a l'ESO
-                </h2>
-                <p class="text-sm text-gray-500 mb-6">Selecciona una assignatura i el sistema carregarà de forma automàtica les Competències Específiques (CE), Criteris d'Avaluació (CA) i Sabers de la LOMLOE.</p>
+            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-900 flex items-center gap-2">📋 Programació Curricular Avançada</h2>
+                        <p class="text-xs text-slate-500">Genera situacions d'aprenentatge partint de zero o utilitzant estructures base oficials.</p>
+                    </div>
+                    <button type="button" onclick="cargarPlantillaBase()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black px-4 py-2 rounded-xl shadow-xs transition uppercase tracking-wider">
+                        ⚡ Carregar Plantilla de l'Assignatura
+                    </button>
+                </div>
                 
                 <form id="form-planificacion" class="space-y-6" onsubmit="event.preventDefault(); generarPlanificacion();">
-                    <!-- Datos Generales -->
+                    <!-- Datos Base -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Situació d'Aprenentatge (Títol)</label>
-                            <input type="text" id="sa-titulo" required placeholder="Ex: Disseny d'un habitatge domòtic" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Situació d'Aprenentatge (Títol)</label>
+                            <input type="text" id="sa-titulo" required placeholder="Ex: Disseny d'un habitatge domòtic" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Assignatura de l'Àmbit / Currículum</label>
-                            <select id="sa-materia" onchange="actualizarCurriculum()" class="w-full p-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-indigo-950">
-                                <option value="tecnologia">🛠️ Tecnologia (ESO)</option>
-                                <option value="digitalitzacio">💻 Digitalització (ESO)</option>
-                                <option value="mates">📐 Matemàtiques (ESO)</option>
-                                <option value="biologia">🧬 Biologia i Geologia (ESO)</option>
-                                <option value="fisica">🧪 Física i Química (ESO)</option>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Assignatura (Decret 175/2022)</label>
+                            <select id="sa-materia" onchange="actualizarCurriculum()" class="w-full p-3 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-slate-900 text-sm">
+                                <option value="tecnologia">🛠️ Tecnologia</option>
+                                <option value="digitalitzacio">💻 Digitalització</option>
+                                <option value="mates">📐 Matemàtiques</option>
+                                <option value="biologia">🧬 Biologia i Geologia</option>
+                                <option value="fisica">🧪 Física i Química</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Curs d'ESO</label>
-                            <select id="sa-nivel" class="w-full p-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                                <option value="eso1">1r d'ESO</option>
-                                <option value="eso2">2n d'ESO</option>
-                                <option value="eso3">3r d'ESO</option>
-                                <option value="eso4">4t d'ESO</option>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nivell d'ESO</label>
+                            <select id="sa-nivel" class="w-full p-3 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+                                <option value="1">1r d'ESO</option>
+                                <option value="2">2n d'ESO</option>
+                                <option value="3">3r d'ESO</option>
+                                <option value="4">4t d'ESO</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- DESPLEGABLES DINÁMICOS CURRICULARES (FLEXIBLES Y FUNCIONALES) -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                    <!-- DESPLEGABLES DINÁMICOS CURRICULARES -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
                         <div>
-                            <label class="block text-xs font-bold text-indigo-900 uppercase mb-1">Competències Específiques (CE)</label>
-                            <select id="drop-ce" class="w-full p-2 text-xs border border-indigo-300 rounded-lg bg-white outline-none h-10"></select>
-                            <button type="button" onclick="agregarElemento('drop-ce', 'lista-ce')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-1.5 rounded-md font-medium transition">+ Afegir Competència</button>
-                            <ul id="lista-ce" class="mt-3 text-xs space-y-1 text-gray-700 list-disc pl-4 font-medium"></ul>
+                            <label class="block text-xs font-bold text-indigo-300 uppercase mb-1.5">Competències Específiques (CE)</label>
+                            <select id="drop-ce" class="w-full p-2.5 text-xs border border-slate-700 rounded-xl bg-slate-950 text-slate-200 outline-none h-11"></select>
+                            <button type="button" onclick="agregarElemento('drop-ce', 'lista-ce')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-2 rounded-lg font-bold transition">+ Afegir CE</button>
+                            <ul id="lista-ce" class="mt-3 text-xs space-y-1"></ul>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-indigo-900 uppercase mb-1">Criteris d'Avaluació (CA)</label>
-                            <select id="drop-ca" class="w-full p-2 text-xs border border-indigo-300 rounded-lg bg-white outline-none h-10"></select>
-                            <button type="button" onclick="agregarElemento('drop-ca', 'lista-ca')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-1.5 rounded-md font-medium transition">+ Afegir Criteri</button>
-                            <ul id="lista-ca" class="mt-3 text-xs space-y-1 text-gray-700 list-disc pl-4 font-medium"></ul>
+                            <label class="block text-xs font-bold text-indigo-300 uppercase mb-1.5">Criteris d'Avaluació (CA)</label>
+                            <select id="drop-ca" class="w-full p-2.5 text-xs border border-slate-700 rounded-xl bg-slate-950 text-slate-200 outline-none h-11"></select>
+                            <button type="button" onclick="agregarElemento('drop-ca', 'lista-ca')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-2 rounded-lg font-bold transition">+ Afegir Criteri (CA)</button>
+                            <ul id="lista-ca" class="mt-3 text-xs space-y-1"></ul>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-indigo-900 uppercase mb-1">Sabers Bàsics / Continguts</label>
-                            <select id="drop-sabers" class="w-full p-2 text-xs border border-indigo-300 rounded-lg bg-white outline-none h-10"></select>
-                            <button type="button" onclick="agregarElemento('drop-sabers', 'lista-sabers')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-1.5 rounded-md font-medium transition">+ Afegir Saber</button>
-                            <ul id="lista-sabers" class="mt-3 text-xs space-y-1 text-gray-700 list-disc pl-4 font-medium"></ul>
+                            <label class="block text-xs font-bold text-indigo-300 uppercase mb-1.5">Sabers Bàsics Integrats</label>
+                            <select id="drop-sabers" class="w-full p-2.5 text-xs border border-slate-700 rounded-xl bg-slate-950 text-slate-200 outline-none h-11"></select>
+                            <button type="button" onclick="agregarElemento('drop-sabers', 'lista-sabers')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-2 rounded-lg font-bold transition">+ Afegir Saber</button>
+                            <ul id="lista-sabers" class="mt-3 text-xs space-y-1"></ul>
                         </div>
                     </div>
 
-                    <!-- BLOQUE INCLUSIÓN DECRET 150/2017: PRINCIPIOS DUA -->
-                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                        <h3 class="text-sm font-bold text-emerald-900 uppercase mb-3 flex items-center gap-1">
-                            🌱 Pautes de Disseny Universal de l'Aprenentatge (DUA)
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                            <label class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-emerald-200 cursor-pointer">
-                                <input type="checkbox" name="dua" value="Representació: Entorns de programació per blocs o codi, programari de disseny 3D amb suport visual i maquetes reals." class="mt-0.5 text-emerald-600 rounded">
-                                <span><strong>Representació:</strong> Alternar programari visual (blocs/3D) amb esquemes físics i explicacions multipantalla.</span>
-                            </label>
-                            <label class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-emerald-200 cursor-pointer">
-                                <input type="checkbox" name="dua" value="Acció i Expressió: Lliurament de prototips funcionals, informes digitals, presentacions de projectes en vídeo o simulacions." class="mt-0.5 text-emerald-600 rounded">
-                                <span><strong>Acció i Expressió:</strong> Permetre memòries tècniques en text, simulacions digitals o defensa oral amb el prototip.</span>
-                            </label>
-                            <label class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-emerald-200 cursor-pointer">
-                                <input type="checkbox" name="dua" value="Implicació: Aprenentatge Basat en Projectes (ABP), reptes de programació graduats, dinàmiques de taller cooperatiu." class="mt-0.5 text-emerald-600 rounded">
-                                <span><strong>Implicació:</strong> Organitzar rols de taller (coordinador, dissenyador, programador) i objectius per nivells (scaffolding).</span>
-                            </label>
+                    <!-- DESARROLLO INCLUSIVO DUA A FONDO (DECRET 150/2017) -->
+                    <div class="bg-emerald-50/60 p-6 rounded-2xl border border-emerald-200/60 space-y-4">
+                        <div class="border-b border-emerald-200 pb-2">
+                            <h3 class="text-md font-black text-emerald-950 uppercase flex items-center gap-2">
+                                🌿 Marc d'Inclusió Avançat DUA (Decret 150/2017)
+                            </h3>
+                            <p class="text-xs text-emerald-800">Selecciona les mesures universals que implementaràs per atendre els diferents ritmes i estils d'aprenentatge al laboratori/taller.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                            <!-- Principio 1: Proporcionar múltiples formes de Representació -->
+                            <div class="space-y-2 bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+                                <h4 class="font-bold text-emerald-900 border-b border-emerald-100 pb-1 uppercase tracking-wider">👁️ I. Formes de Representació</h4>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Representació: Ús de programari de simulació interactiu (PhET, Tinkercad) previ al muntatge real." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Simuladors digitals interactius abans de manipular components físics o químics.</span>
+                                </label>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Representació: Vocabulari tècnic i glossaris amb imatges reals de laboratori/taller." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Glossari tècnic visual/multilingüe per a eines, variables o elements de laboratori.</span>
+                                </label>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Representació: Esquemes gràfics alternatius de la informació (infografies o llistes de passos en vídeo)." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Instruccions de pràctiques en format vídeo curt o infografia pas a pas.</span>
+                                </label>
+                            </div>
+
+                            <!-- Principio 2: Proporcionar múltiples formes d'Acció i Expressió -->
+                            <div class="space-y-2 bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+                                <h4 class="font-bold text-emerald-900 border-b border-emerald-100 pb-1 uppercase tracking-wider">🛠️ II. Acció i Expressió</h4>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Acció/Expressió: Opcions de codificació alternatives (programació gràfica per blocs o codi textual depenent del nivell)." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Programació adaptable (elecció entre blocs tipus Scratch o codi textual en Python/C++).</span>
+                                </label>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Acció/Expressió: Lliurament d'evidències via producte físic (prototip), exposició en vídeo o informe escrit." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Lliurament flexible de la memòria tècnica (format vídeo de l'explicació, pòster gràfic o codi documentat).</span>
+                                </label>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Acció/Expressió: Bastides cognitives (scaffolding) amb plantilles de codi parcialment fet o informes de laboratori pautats." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Ús de "bastides" (plantilles de codi de robòtica a mig omplir o guies de laboratori pautades).</span>
+                                </label>
+                            </div>
+
+                            <!-- Principio 3: Proporcionar múltiples formes d'Implicació -->
+                            <div class="space-y-2 bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+                                <h4 class="font-bold text-emerald-900 border-b border-emerald-100 pb-1 uppercase tracking-wider">🔥 III. Formes d'Implicació</h4>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Implicació: Distribució de rols cooperatius rotatius adaptats al disseny de projectes tecnocientífics." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Rols cooperatius clars i adaptats (Coordinador, Dissenyador, Programador/Analista, Responsable de Seguretat).</span>
+                                </label>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Implicació: Reptes amb disseny obert on es permet triar la problemàtica real a resoldre." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Reptes d'aprenentatge contextualitzats en problemes reals elegibles pels alumnes.</span>
+                                </label>
+                                <label class="flex items-start space-x-2 cursor-pointer">
+                                    <input type="checkbox" name="dua" value="Implicació: Pautes d'autoavaluació sistemàtica mitjançant llistes de verificació de fites del projecte." class="mt-0.5 text-emerald-600 rounded">
+                                    <span>Llistes de control per a l'autoavaluació del funcionament del prototip o experiment.</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Secuencia Didáctica Breve -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Seqüència d'Activitats al Taller / Laboratori (Inici, Desenvolupament, Tancament)</label>
-                        <textarea id="sa-actividades" rows="3" required placeholder="Ex: 1. Presentació del repte de robòtica. 2. Muntatge del sensor d'ultrasons en grups cooperatius. 3. Proves i depuració del codi de control..." class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></textarea>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Seqüència d'Activitats de la Sessió (Inici, Desenvolupament, Tancament)</label>
+                        <textarea id="sa-actividades" rows="3" required placeholder="Descriu de forma seqüencial el que succeirà a l'aula o laboratori..." class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium text-slate-700"></textarea>
                     </div>
 
-                    <button type="submit" class="w-full bg-indigo-950 hover:bg-black text-white font-bold py-3 px-4 rounded-lg shadow-md transition">
-                        ⚙️ Generar i Desadesar la Programació Didàctica d'ESO
+                    <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-black py-3.5 px-4 rounded-xl shadow-lg transition uppercase tracking-wide text-sm">
+                        ⚙️ Desar i Estructurar la Programació Didàctica
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- ================= VARIANTE 2: EL CUADERNO DEL PROFESOR (GESTIÓN) ================= -->
-        <section id="tab-cuaderno" class="tabs-content space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">🗓️ Quadern d'Avaluació de l'Àmbit de l'ESO</h2>
-                    <span class="bg-indigo-100 text-indigo-900 text-xs font-bold px-2.5 py-1 rounded-sm">Seguiment per Competències</span>
+        <!-- ================= MÓDULO NUEVO: GENERADOR DE RÚBRICAS LOMLOE ================= -->
+        <section id="tab-rubrica" class="tabs-content space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
+                    <div>
+                        <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">📊 Generador Automatitzat de Rúbriques</h2>
+                        <p class="text-xs text-slate-500">Es construeix de forma instantània utilitzant els criteris seleccionats al dissenyador.</p>
+                    </div>
+                    <button onclick="construirRubrica()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition">
+                        🔄 Construir / Actualitzar Rúbrica
+                    </button>
                 </div>
+
                 <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-                            <tr>
-                                <th class="px-4 py-3">Alumne/a (Grup d'ESO)</th>
-                                <th class="px-4 py-3">Estat Projecte</th>
-                                <th class="px-4 py-3">CE.1 (Assoliment)</th>
-                                <th class="px-4 py-3">Mesures DUA Aplicades</th>
-                                <th class="px-4 py-3">Observacions i Coavaluació</th>
+                    <table class="w-full border-collapse border border-slate-200 text-sm rounded-xl overflow-hidden">
+                        <thead>
+                            <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                                <th class="p-3 border border-slate-700 text-left w-1/5">Criteri d'Avaluació (CA)</th>
+                                <th class="p-3 border border-slate-700 text-left bg-emerald-950 text-emerald-300">AE - Assolit Excel·lent (9-10)</th>
+                                <th class="p-3 border border-slate-700 text-left bg-indigo-950 text-indigo-300">AN - Assolit Notable (7-8)</th>
+                                <th class="p-3 border border-slate-700 text-left bg-amber-950 text-amber-300">AS - Assolit Satisfactori (5-6)</th>
+                                <th class="p-3 border border-slate-700 text-left bg-red-950 text-red-300">NA - No Assolit (1-4)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 text-gray-900">
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 font-medium">López Martínez, Alba (3r ESO A)</td>
-                                <td class="px-4 py-3"><span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full font-medium">Circuit Muntat</span></td>
-                                <td class="px-4 py-3"><select class="p-1 border rounded bg-white text-xs"><option>Assolit Excel·lent (AE)</option><option>Assolit Notable (AN)</option></select></td>
-                                <td class="px-4 py-3 text-xs text-gray-500">Universal (Lideratge Cooperatiu)</td>
-                                <td class="px-4 py-3"><input type="text" value="Treball de programació excel·lent." class="p-1 border rounded text-xs w-full bg-gray-50"></td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 font-medium">Sánchez Ruíz, Marc (3r ESO A)</td>
-                                <td class="px-4 py-3"><span class="bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded-full font-medium">Depurant Codi</span></td>
-                                <td class="px-4 py-3"><select class="p-1 border rounded bg-white text-xs"><option>Assolit Satisfactori (AS)</option><option>No Assolit (NA)</option></select></td>
-                                <td class="px-4 py-3 text-xs text-emerald-700 font-semibold">Suport Visual / Programació Blocs</td>
-                                <td class="px-4 py-3"><input type="text" placeholder="Anotar..." class="p-1 border rounded text-xs w-full"></td>
+                        <tbody id="cuerpo-rubrica" class="text-xs divide-y divide-slate-200 text-slate-700 font-medium">
+                            <tr>
+                                <td colspan="5" class="p-8 text-center text-slate-400 font-bold italic">No has seleccionat cap criteri encara. Afegeix criteris al Dissenyador i prem "Construir Rúbrica".</td>
                             </tr>
                         </tbody>
                     </table>
@@ -165,58 +208,92 @@
             </div>
         </section>
 
-        <!-- ================= VARIANTE 3: BANCO DE RECURSOS (EXPORTACIÓN) ================= -->
+        <!-- ================= VARIANTE 3: EL CUADERNO DEL PROFESOR ================= -->
+        <section id="tab-cuaderno" class="tabs-content space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">🗓️ Quadern de Seguiment Competencial</h2>
+                    <span class="bg-indigo-100 text-indigo-900 text-xs font-black px-3 py-1 rounded-md">ESO • Curs 2026/2027</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-slate-500">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100 font-bold">
+                            <tr>
+                                <th class="px-4 py-3">Alumne/a (Grup)</th>
+                                <th class="px-4 py-3">Estat del Treball Pràctic</th>
+                                <th class="px-4 py-3">Nivell de Coavaluació</th>
+                                <th class="px-4 py-3">Suport DUA Requerit</th>
+                                <th class="px-4 py-3">Observacions / Notes d'aula</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-slate-900 font-medium text-xs">
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-4 py-3 font-bold text-slate-900">Alba López Martínez (3r d'ESO A)</td>
+                                <td class="px-4 py-3"><span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Prototip Ok</span></td>
+                                <td class="px-4 py-3"><span class="text-emerald-700 font-bold">Excel·lent (AE)</span></td>
+                                <td class="px-4 py-3 text-slate-500">Universal (Lideratge d'equips)</td>
+                                <td class="px-4 py-3"><input type="text" value="Treball de codificació net i organitzat." class="p-1.5 border rounded-lg text-xs w-full bg-slate-50 border-slate-200"></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-4 py-3 font-bold text-slate-900">Marc Sánchez Ruíz (3r d'ESO A)</td>
+                                <td class="px-4 py-3"><span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Ajustant variables</span></td>
+                                <td class="px-4 py-3"><span class="text-amber-700 font-bold">Satisfactori (AS)</span></td>
+                                <td class="px-4 py-3 text-emerald-700 font-bold">Suport visual / Blocs Scratch</td>
+                                <td class="px-4 py-3"><input type="text" placeholder="Anotar evolució..." class="p-1.5 border rounded-lg text-xs w-full border-slate-200"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VARIANTE 4: BANCO DE RECURSOS ================= -->
         <section id="tab-banco" class="tabs-content space-y-6">
-            <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
-                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">📁 Dipòsit de Programacions de l'Àmbit Científic-Tecnològic</h2>
+            <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
+                <h2 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">📁 Dipòsit d'Unitats i Situacions de l'Àmbit STEM</h2>
                 <div id="contenedor-archivos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Ejemplo por defecto de tecnología -->
-                    <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 flex justify-between items-start">
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-start">
                         <div>
-                            <h3 class="font-bold text-indigo-900 text-sm">Exemple Oficial: Programació d'un sistema de reg automàtic</h3>
-                            <p class="text-xs text-gray-500 mt-1">Tecnologia | 3r d'ESO | DUA actiu</p>
+                            <h3 class="font-bold text-slate-900 text-sm">Exemple de Referència: Reg Automatitzat Smart Greenhouse</h3>
+                            <p class="text-xs text-slate-500 mt-1">Tecnologia | 3r d'ESO | DUA actiu i completat</p>
                         </div>
-                        <button onclick="alert('Exportant el document LOMLOE oficial per a Inspecció...')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-900 text-xs font-bold px-3 py-1.5 rounded-lg transition">⬇️ Exportar</button>
+                        <button onclick="alert('Exportant format estàndard...')" class="bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-lg transition">⬇️ Exportar</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ================= VARIANTE 4: MODE "A L'AULA" ================= -->
+        <!-- ================= VARIANTE 5: MODE "A L'AULA" ================= -->
         <section id="tab-aula" class="tabs-content space-y-6">
-            <div class="bg-slate-900 text-slate-100 p-6 rounded-xl shadow-xl border border-slate-800">
+            <div class="bg-slate-950 text-slate-100 p-6 rounded-2xl shadow-2xl border border-slate-800">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6">
                     <div>
-                        <span class="bg-amber-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Mode Taller / Presentació</span>
-                        <h2 class="text-2xl font-black text-white mt-1" id="aula-titulo-sa">Sense Situació Seleccionada</h2>
+                        <span class="bg-amber-400 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">Mode Dinàmic de Taller i Projectes</span>
+                        <h2 class="text-2xl font-black text-white mt-1" id="aula-titulo-sa">Sense Situació Activa</h2>
                     </div>
-                    <!-- Cronómetro de clase integrado -->
-                    <div class="mt-4 md:mt-0 bg-slate-800 p-3 rounded-xl border border-slate-700 flex items-center space-x-4">
+                    <div class="mt-4 md:mt-0 bg-slate-900 p-3 rounded-xl border border-slate-800 flex items-center space-x-4">
                         <div class="text-right">
-                            <p class="text-[10px] text-slate-400 font-bold uppercase">Temps de pràctica / repte</p>
+                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Temps de repte pràctic</p>
                             <p id="timer-display" class="text-2xl font-mono font-bold text-amber-400">45:00</p>
                         </div>
-                        <button onclick="toggleTimer()" id="btn-timer" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold p-2 rounded-lg transition text-sm">⏱️ Iniciar Sessió</button>
+                        <button onclick="toggleTimer()" id="btn-timer" class="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black px-3 py-2 rounded-lg transition text-xs uppercase tracking-wider">⏱️ Iniciar</button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Panel Izquierdo: Ruta curricular rápida -->
-                    <div class="md:col-span-1 bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4 text-xs">
-                        <div>
-                            <h4 class="font-bold text-indigo-400 uppercase tracking-wider mb-2">📌 Referents Curriculars d'Avui</h4>
-                            <div id="aula-curriculum" class="text-slate-300 space-y-2">Genera o activa una programació des del formulari inicial o el banc per veure el mapa de competències aquí.</div>
-                        </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Columna Curricular Rápida -->
+                    <div class="lg:col-span-1 bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-4 text-xs">
+                        <h4 class="font-bold text-indigo-400 uppercase tracking-wider border-b border-slate-800 pb-1">📌 Objectiu Competencial de la Sessió</h4>
+                        <div id="aula-curriculum" class="text-slate-300 space-y-2">Genera una programació per veure els mapes de competències aquí.</div>
                     </div>
-                    <!-- Panel Central: Guión de la clase paso a paso -->
-                    <div class="md:col-span-2 bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
-                        <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider">🚀 Disseny del Flux de la Sessió (Taller/Laboratori)</h3>
-                        <p id="aula-secuencia" class="text-slate-300 text-sm leading-relaxed">Les teves indicacions es veuran aquí en format de lletra gran per poder-les llegir mentre et mous per l'aula.</p>
+                    <!-- Columna Guión Paso a Paso -->
+                    <div class="lg:col-span-2 bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-4">
+                        <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider">🚀 Flux Didàctic Actiu</h3>
+                        <p id="aula-secuencia" class="text-slate-300 text-sm leading-relaxed font-medium">Les indicacions de programació es veuran impreses aquí en alta claredat.</p>
                         
-                        <!-- Pautas DUA de ayuda instantánea -->
-                        <div class="p-3 bg-emerald-950/50 border border-emerald-800/60 rounded-lg">
-                            <h4 class="text-xs font-bold text-emerald-400 uppercase flex items-center gap-1 mb-1">💡 Aplicació del Decret 150/2017 (Inclusió)</h4>
-                            <p class="text-xs text-slate-300" id="aula-dua-pautas">Pautes del Disseny Universal actives per a aquesta sessió.</p>
+                        <div class="p-4 bg-emerald-950/40 border border-emerald-900 rounded-xl">
+                            <h4 class="text-xs font-bold text-emerald-400 uppercase flex items-center gap-1 mb-1.5">💡 Intervenció Inclusiva sota el Marc DUA</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed" id="aula-dua-pautas">Pautes DUA seleccionades per a l'atenció universal.</p>
                         </div>
                     </div>
                 </div>
@@ -225,107 +302,135 @@
 
     </main>
 
-    <!-- MOTOR DE DADES OFICIALS LOMLOE — ESO CATALUNYA -->
+    <!-- MOTOR DE BASE DE DATOS Y PLANTILLAS OFICIALES LOMLOE CATALUNYA -->
     <script>
+        // CURRÍCULUM DEFINITIVO LOMLOE (CATALUNYA)
         const curriculumData = {
             tecnologia: {
                 ce: [
                     "CE.1. Analitzar necessitats i productes tecnològics aplicant metodologies de disseny de projectes.",
-                    "CE.2. Dissenyar, construir i avaluar prototips o sistemes tècnics utilitzant el taller mecànic i electrònic.",
-                    "CE.4. Programar sistemes automàtics i robots per resoldre problemes de control."
+                    "CE.2. Dissenyar, construir i avaluar prototips o sistemes tècnics al taller mecànic/electrònic.",
+                    "CE.4. Programar sistemes automàtics i robots per resoldre problemes de control i sensors."
                 ],
                 ca: [
-                    "CA 1.1. Identificar problemes del món real que es poden resoldre mitjançant el disseny tecnològic.",
-                    "CA 2.3. Manipular eines mecàniques i components elèctrics respectant les normes de seguretat al taller.",
-                    "CA 4.2. Connectar i controlar sensors i actuadors en microcontroladors com Arduino o Micro:bit."
+                    "CA 1.1. Trobar solucions a problemes del món real mitjançant l'aplicació d'estratègies de disseny.",
+                    "CA 2.3. Emprar de manera segura i eficient les eines i materials del taller de tecnologia.",
+                    "CA 4.2. Connectar i programar actuadors i sensors mecànics utilitzant microcontroladors reals."
                 ],
                 sabers: [
-                    "Sabers: Procés tecnològic: Disseny, plànols, pressupostos i cicle de vida del producte.",
-                    "Sabers: Electrònica i Mecànica: Circuits elèctrics, operadors i màquines simples.",
-                    "Sabers: Robòtica i Automatització: Control per blocs o codi, sensors i maquinari de control."
+                    "Sabers: El procés tecnològic: croquis, plànols, llistat de materials i pressupost de fabricació.",
+                    "Sabers: Electricitat i electrònica bàsica: relacions de magnituds, operadors i circuits de corrent continu.",
+                    "Sabers: Robòtica i control automàtic: arquitectura d'un robot, programació estructurada i fluxos de control."
                 ]
             },
             digitalitzacio: {
                 ce: [
-                    "CE.1. Gestionar entorns digitals de treball i d'aprenentatge garantint la seguretat i salut digital.",
-                    "CE.2. Programar aplicacions de programari utilitzant llenguatges estructurats o per blocs.",
-                    "CE.3. Configurar i mantenir infraestructures de xarxes i sistemes informàtics domèstics."
+                    "CE.1. Configurar i gestionar entorns digitals de treball garantint la seguretat i salut digital.",
+                    "CE.2. Programar aplicacions informàtiques de programari mitjançant estructures de dades lògiques.",
+                    "CE.3. Analitzar el funcionament intern de sistemes informàtics i xarxes de dades de comunicació."
                 ],
                 ca: [
-                    "CA 1.2. Aplicar mesures de ciberseguretat activa i protecció d'identitat digital en xarxes socials.",
-                    "CA 2.1. Desenvolupar algorismes per resoldre problemes lògics mitjançant variables i condicionals.",
-                    "CA 3.3. Configurar xarxes sense fils (Wi-Fi) entenent les adreces IP i les mesures de seguretat."
+                    "CA 1.2. Mantenir la identitat digital i dades personals protegides contra atacs i programari maliciós.",
+                    "CA 2.1. Desenvolupar algorismes per resoldre problemes matemàtics/lògics utilitzant llenguatges de codi.",
+                    "CA 3.3. Configurar xarxes cablejades i sense fils associant configuracions d'adreces IP estàndard."
                 ],
                 sabers: [
-                    "Sabers: Alfabetització digital: Eines de núvol, sistemes operatius i gestió segura de fitxers.",
-                    "Sabers: Pensament computacional: Disseny d'algorismes i llenguatges de programació (Python, Blocs).",
-                    "Sabers: Seguretat digital: Amenaces de programari maliciós, estafes digitals i petjada verda."
+                    "Sabers: Ciberseguretat activa: encriptació de dades, programari espia i hàbits de navegació segura.",
+                    "Sabers: Pensament computacional avançat: algorismes complexos, variables estructurades i funcions en Python.",
+                    "Sabers: Arquitectura de xarxes: dispositius de connexió (encaminador, commutador), adreçament i protocols."
                 ]
             },
             mates: {
                 ce: [
-                    "CE.1. Traduir problemes de la vida quotidiana a llenguatges matemàtics (numèric, algebraic, gràfic).",
-                    "CE.2. Utilitzar el raonament analític i geomètric per comprovar conjectures i teoremes.",
-                    "CE.4. Interpretar dades estadístiques d'estudis reals per extreure conclusions crítiques."
+                    "CE.1. Traduir fenòmens i problemes reals a models de llenguatge matemàtic (algebraic, numèric).",
+                    "CE.2. Utilitzar el raonament lògic, deductiu i geomètric per validar conjectures realitzades.",
+                    "CE.4. Gestionar de manera analítica conjunts de dades estadístiques extretes del món real."
                 ],
                 ca: [
-                    "CA 1.2. Resoldre equacions i sistemes aplicats a la resolució de conflictes geomètrics o econòmics.",
-                    "CA 2.1. Aplicar propietats de figures planes i cossos 3D com el teorema de Pitàgores.",
-                    "CA 4.3. Calcular probabilitats de successos i gràfics estadístics mitjançant programari de full de càlcul."
+                    "CA 1.2. Plantejar i resoldre problemes reals aplicant equacions lineals o sistemes algebraics.",
+                    "CA 2.1. Calcular àrees i volums de cossos tridimensionals mitjançant deduccions mètriques.",
+                    "CA 4.3. Calcular mitjanes, paràmetres de dispersió i representar gràfics en fulls de càlcul."
                 ],
                 sabers: [
-                    "Sabers: Sentit algebraic i numèric: Relacions lineals, patrons i expressions algebraiques.",
-                    "Sabers: Sentit espacial: Geometria mètrica, àrees, volums i programari de disseny paramètric.",
-                    "Sabers: Sentit estocàstic: Gràfics de barres, mitjanes, dispersions i càlcul de probabilitat bivariant."
+                    "Sabers: Sentit algebraic: equacions de primer i segon grau, identitats notables i modelització de patrons.",
+                    "Sabers: Sentit espacial i geomètric: llocs geomètrics clau, Teorema de Pitàgores i disseny paramètric 3D.",
+                    "Sabers: Sentit estocàstic: l'atzar, probabilitats simples, combinatòria, estadística descriptiva i mostreig."
                 ]
             },
             biologia: {
                 ce: [
-                    "CE.1. Analitzar les propietats dels éssers vius a partir de la teoria cel·lular i les funcions vitals.",
-                    "CE.2. Avaluar l'impacte de les accions humanes sobre els ecosistemes i la pèrdua de biodiversitat.",
-                    "CE.3. Identificar hàbits de vida saludables relacionant-los amb el correcte funcionament dels aparells del cos humà."
+                    "CE.1. Comprendre la cèl·lula com a unitat funcional estructural dels éssers vius a la Terra.",
+                    "CE.2. Avaluar l'impacte d'accions humanes i l'explotació de recursos en la biodiversitat global.",
+                    "CE.3. Relacionar l'anatomia humana amb hàbits d'alimentació i condicions de vida saludables."
                 ],
                 ca: [
-                    "CA 1.1. Identificar estructures cel·lulars en preparacions microscòpiques o models digitals.",
-                    "CA 2.3. Explicar el canvi climàtic i el deteriorament de la biosfera a partir de l'evidència científica.",
-                    "CA 3.2. Proposar dietes equilibrades i mètodes de prevenció de malalties infeccioses comuns."
+                    "CA 1.1. Diferenciar cèl·lules procariotes i eucariotes mitjançant observacions o microscòpia digital.",
+                    "CA 2.3. Explicar com el canvi climàtic posa en risc l'equilibri ecològic dels ecosistemes propers.",
+                    "CA 3.2. Estructurar dietes equilibrades que evitin disfuncions dels aparells digestiu o circulatori."
                 ],
                 sabers: [
-                    "Sabers: La Terra a l'Univers i Geologia: Tectònica de plaques i relleu.",
-                    "Sabers: L'ésser viu i la cèl·lula: Estructura, ADN, microbiologia i genètica mendeliana.",
-                    "Sabers: Salut i Medi Ambient: Nutrició, aparells del cos humà, i sostenibilitat de la biosfera."
+                    "Sabers: Biologia cel·lular: la teoria cel·lular, orgànuls, mitosi, meiosi i l'estructura del codi de l'ADN.",
+                    "Sabers: Ecologia i medi ambient: cadenes tròfiques, interaccions de simbiosi i dinàmiques de poblacions.",
+                    "Sabers: Anatomia del cos humà: sistemes de nutrició, relació, reproducció, i malalties associades."
                 ]
             },
             fisica: {
                 ce: [
-                    "CE.1. Utilitzar el mètode científic mitjançant l'experimentació en el laboratori de física i química.",
-                    "CE.2. Interpretar les transformacions de la matèria a partir de les lleis ponderals i la teoria atòmica.",
-                    "CE.3. Analitzar forces i moviments de la vida diària utilitzant vectors i equacions dinàmiques."
+                    "CE.1. Dissenyar i executar experiments en el laboratori aplicant fases de la recerca científica.",
+                    "CE.2. Modelar les estructures íntimes de la matèria a partir de reaccions i models atòmics.",
+                    "CE.3. Relacionar les forces mecàniques amb canvis en l'estat del moviment d'objectes reals."
                 ],
                 ca: [
-                    "CA 1.2. Mesurar magnituds físiques utilitzant de forma correcta el Sistema Internacional d'Unitats.",
-                    "CA 2.1. Balancejar reaccions químiques senzilles i identificar reactius i productes.",
-                    "CA 3.3. Calcular velocitats i acceleracions en moviments rectilinis de vehicles reals."
+                    "CA 1.2. Recollir dades de variables de laboratori de forma rigorosa emprant unitats del Sistema Internacional.",
+                    "CA 2.1. Ajustar correctament reaccions químiques respectant les lleis clàssiques de conservació de la massa.",
+                    "CA 3.3. Predir moviments rectilinis calculant velocitats i acceleracions lineals en gràfics elementals."
                 ],
                 sabers: [
-                    "Sabers: Estructura de la matèria: Àtoms, enllaços, la taula periòdica i formulació bàsica.",
-                    "Sabers: Canvis químics: Reaccions químiques, estequiometria i velocitat de reacció.",
-                    "Sabers: Cinemàtica i Dinàmica: Forces, moviments (MRU, MRUA), energia, treball i calor."
+                    "Sabers: Estructura atòmica: configuració electrònica, ions, la Taula Periòdica i naturalesa dels enllaços.",
+                    "Sabers: Transformacions químiques: equacions químiques, càlculs estequiomètrics de massa i conceptes de mol.",
+                    "Sabers: Cinemàtica lineal i dinàmica física: forces, lleis de Newton, moviments MRU/MRUA i vectors de força."
                 ]
             }
         };
 
-        // LÓGICA DE CONTROL DE LA INTERFAZ (TABS)
+        // MATRIZ DE PLANTILLAS OFICIALES INTEGRADAS (ESTRUCTURAS PRE-CONSTRUÍDAS LOMLOE)
+        const plantillasBase = {
+            tecnologia: {
+                titulo: "Disseny i muntatge d'un braç robòtic articulat",
+                actividades: "Inici: Presentació del repte de robòtica mitjançant un vídeo industrial. Explicació de les normes de seguretat al taller.\nDesenvolupament: Organització d'equips. Els alumnes munten el xassís mecànic emprant tornavisos i cables, connectant servomotors a la placa Arduino. Programació d'una seqüència de moviments binaris repetitius.\nTancament: Prova de càrrega del prototip. Autoavaluació d'equip de la precisió dels angles programats.",
+                ce: [0, 1], ca: [1, 2], sabers: [0, 2]
+            },
+            digitalitzacio: {
+                titulo: "Creació d'una aplicació de xat segura amb Python",
+                actividades: "Inici: Demostració en temps real d'una vulnerabilitat informàtica. Introducció als conceptes de criptografia bàsica.\nDesenvolupament: Ús d'una bastida de codi a mig fer. L'alumnat codifica la lògica de recepció de cadenes de text utilitzant condicionals i xifrat de dades simètric.\nTancament: Connexió remota entre equips del laboratori. Comprovació de missatges encriptats transmesos.",
+                ce: [0, 1], ca: [0, 1], sabers: [0, 1]
+            },
+            mates: {
+                titulo: "Modelització matemàtica de la petjada de carboni del centre",
+                actividades: "Inici: Plantejament d'un cas real d'anàlisi de dades relacionat amb els residus que genera l'escola durant els patis.\nDesenvolupament: Recollida de mostreigs numèrics als contenidors. Ús del programari de full de càlcul per agrupar les dades en taules, aplicar fórmules de mitjana aritmètica i generar gràfics de barres.\nTancament: Exposició gràfica de les línies de tendència lineal. Formulació de conjectures de reducció.",
+                ce: [0, 2], ca: [2], sabers: [2]
+            },
+            biologia: {
+                titulo: "Anàlisi microscòpica i mutacions cel·lulars",
+                actividades: "Inici: Explicació de les diferències d'enfocament òptic al laboratori. Projecció en línia d'estructures de cèl·lules animals tumorals.\nDesenvolupament: Els alumnes preparen teixit epidèrmic de ceba amb tinció de blau de metilè. Observació individual al microscopi i dibuix paramètric anotant les parts cel·lulars visibles.\nTancament: Debat guiat a l'aula sobre els mecanismes que trenquen la mitosi cel·lular (radiacions, tabac).",
+                ce: [0, 1], ca: [0], sabers: [0]
+            },
+            fisica: {
+                titulo: "Determinació experimental de la gravetat en plans inclinats",
+                actividades: "Inici: Repàs de l'origen de la gravetat i del caràcter vectorial de les forces que actuen en les caigudes d'objectes.\nDesenvolupament: Llançament de boles d'acer per rampes a diferents angles d'inclinació. Mesura de temps i distàncies amb cronòmetre digital del telèfon, abocant les dades per calcular l'acceleració lineal.\nTancament: Càlcul de l'error experimental respecte al valor de g teòric de 9.8 m/s².",
+                ce: [0, 2], ca: [0, 2], sabers: [0, 2]
+            }
+        };
+
+        // INTERFAZ DE TABS
         function switchTab(tabId) {
             document.querySelectorAll('.tabs-content').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white');
-                btn.classList.add('text-indigo-300', 'hover:text-white');
+                btn.className = "tab-btn px-3.5 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
             });
-            event.currentTarget.classList.add('bg-indigo-600', 'text-white');
-            event.currentTarget.classList.remove('text-indigo-300', 'hover:text-white');
+            event.currentTarget.className = "tab-btn px-3.5 py-2 rounded-lg font-bold text-white bg-indigo-600 transition";
         }
 
         // CONTROL ACTUALIZACIÓN DE DESPLEGABLES SEGÚN ASIGNATURA
@@ -349,22 +454,80 @@
             llenarSelect('drop-sabers', data.sabers);
         }
 
-        // GESTIÓN DINÁMICA DE ITEMS SELECCIONADOS
+        // SISTEMA DE CARGA DE PLANTILLAS AVANZADO
+        function cargarPlantillaBase() {
+            const materia = document.getElementById('sa-materia').value;
+            const plantilla = plantillasBase[materia];
+            const dataCurricular = curriculumData[materia];
+
+            document.getElementById('sa-titulo').value = plantilla.titulo;
+            document.getElementById('sa-actividades').value = plantilla.actividades;
+
+            const forzarInsercionLista = (listaId, indices, datosOriginales) => {
+                const lista = document.getElementById(listaId);
+                lista.innerHTML = '';
+                indices.forEach(idx => {
+                    const texto = datosOriginales[idx];
+                    const li = document.createElement('li');
+                    li.className = "cursor-pointer hover:text-red-600 transition bg-slate-900 text-slate-100 p-2 border rounded-xl shadow-2xs mt-1.5 border-slate-700 flex justify-between items-center font-medium text-xs";
+                    li.innerHTML = `<span>${texto}</span> <span class="text-red-400 font-bold ml-2">❌</span>`;
+                    li.onclick = () => li.remove();
+                    lista.appendChild(li);
+                });
+            };
+
+            forzarInsercionLista('lista-ce', plantilla.ce, dataCurricular.ce);
+            forzarInsercionLista('lista-ca', plantilla.ca, dataCurricular.ca);
+            forzarInsercionLista('lista-sabers', plantilla.sabers, dataCurricular.sabers);
+
+            alert(`⚡ S'ha carregat de manera completa la plantilla LOMLOE per a: ${materia.toUpperCase()}`);
+        }
+
         function agregarElemento(selectId, listaId) {
             const select = document.getElementById(selectId);
             const lista = document.getElementById(listaId);
             const valor = select.value;
 
             if(!valor) return;
-            if(Array.from(lista.children).some(li => li.textContent === valor)) return;
+            if(Array.from(lista.children).some(li => li.firstElementChild.textContent === valor)) return;
 
             const li = document.createElement('li');
-            li.textContent = valor;
-            li.className = "cursor-pointer hover:text-red-600 transition bg-white p-1.5 border rounded-md shadow-2xs mt-1 border-gray-200 list-none flex justify-between items-center";
-            li.innerHTML = `<span>${valor}</span> <span class="text-red-500 font-bold ml-2 text-[10px]">❌</span>`;
-            li.title = "Fes clic per eliminar";
+            li.className = "cursor-pointer hover:text-red-600 transition bg-slate-950 text-slate-100 p-2 border rounded-xl shadow-2xs mt-1.5 border-slate-800 flex justify-between items-center font-medium text-xs";
+            li.innerHTML = `<span>${valor}</span> <span class="text-red-400 font-bold ml-2">❌</span>`;
             li.onclick = () => li.remove();
             lista.appendChild(li);
+        }
+
+        // LÓGICA DE CONSTRUCCIÓN DINÁMICA DE LA RÚBRICA
+        function construirRubrica() {
+            const criteriosSeleccionados = Array.from(document.getElementById('lista-ca').children).map(li => li.firstElementChild.textContent);
+            const cuerpo = document.getElementById('cuerpo-rubrica');
+
+            if(criteriosSeleccionados.length === 0) {
+                cuerpo.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 font-bold italic">No hi ha criteris afegits al Dissenyador. Torna a la pestanya 1, afegeix Criteris (CA) i prem aquest botó.</td></tr>`;
+                alert("⚠️ Error: Has de tenir almenys un criteri d'avaluació seleccionat al formulari.");
+                return;
+            }
+
+            cuerpo.innerHTML = '';
+            criteriosSeleccionados.forEach(criterio => {
+                const fila = document.createElement('tr');
+                fila.className = "hover:bg-slate-50 divide-x divide-slate-200";
+                
+                // Extraer el código del criterio de forma limpia (ej: CA 1.1)
+                const codigoCriterio = criterio.split('.')[0] + '.' + (criterio.split('.')[1] ? criterio.split('.')[1].split(' ')[0] : '1');
+
+                fila.innerHTML = `
+                    <td class="p-3 font-bold text-slate-900 bg-slate-100">${criterio}</td>
+                    <td class="p-3 text-slate-700 bg-emerald-50/40">Demostra un domini complet del criteri ${codigoCriterio}. Executa la pràctica, resol problemes de manera autònoma i proposa optimitzacions tècniques al prototip o informe científic.</td>
+                    <td class="p-3 text-slate-700 bg-indigo-50/40">Compleix correctament amb el criteri ${codigoCriterio}. Realitza el muntatge, codificació o experiment de forma eficaç, necessitant petits ajustos i entenent la base teòrica.</td>
+                    <td class="p-3 text-slate-700 bg-amber-50/40">Assoleix el criteri ${codigoCriterio} en el llindar mínim elemental. Executa l'activitat de taller o laboratori amb assistència i guiatge continu del docent o dels companys.</td>
+                    <td class="p-3 text-slate-700 bg-red-50/40">No demostra evidències de l'assoliment del criteri ${codigoCriterio}. Mostra dificultats greus per manipular els components de forma segura, estructurar el codi o recollir dades.</td>
+                `;
+                cuerpo.appendChild(fila);
+            });
+
+            alert("📊 S'ha calculat la rúbrica de nivells LOMLOE a partir dels teus criteris actuals d'ESO.");
         }
 
         // MOTOR DE ACCIÓN: GENERAR PROGRAMACIÓN COMPLETA
@@ -383,7 +546,7 @@
             const duaSeleccionados = Array.from(document.querySelectorAll('input[name="dua"]:checked')).map(cb => cb.value);
 
             if(ces.length === 0 || cas.length === 0 || sabers.length === 0) {
-                alert("⚠️ Requisit legal LOMLOE: Has d'afegir com a mínim una Competència Específica (CE), un Criteri (CA) i un Saber al formulari.");
+                alert("⚠️ Requisit LOMLOE incompleto: Recorda adjuntar com a mínim una Competència (CE), un Criteri (CA) i un Saber abans de desar.");
                 return;
             }
 
@@ -392,20 +555,21 @@
 
             actualizarBancoRecursos();
             cargarEnAula(nuevaPlanificacion);
+            construirRubrica(); // Auto-construir rúbrica asociada
             
-            alert("✨ Planificació d'ESO guardada al Dipòsit de Recursos i sincronitzada amb el Mòdul de Presentació.");
+            alert("✨ Situació d'Aprenentatge d'ESO generada. S'ha creat la teva rúbrica i enviat tot al panell d'aula.");
             switchTab('tab-aula');
         }
 
         function actualizarBancoRecursos() {
             const contenedor = document.getElementById('contenedor-archivos');
             contenedor.innerHTML = `
-                <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 flex justify-between items-start">
+                <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-start">
                     <div>
-                        <h3 class="font-bold text-indigo-900 text-sm">Exemple Oficial: Programació d'un sistema de reg automàtic</h3>
-                        <p class="text-xs text-gray-500 mt-1">Tecnologia | 3r d'ESO | DUA actiu</p>
+                        <h3 class="font-bold text-slate-900 text-sm">Exemple de Referència: Reg Automatitzat Smart Greenhouse</h3>
+                        <p class="text-xs text-slate-500 mt-1">Tecnologia | 3r d'ESO | DUA actiu i completat</p>
                     </div>
-                    <button onclick="alert('Exportant...')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-900 text-xs font-bold px-3 py-1.5 rounded-lg">⬇️ Exportar</button>
+                    <button onclick="alert('Exportant format estàndard...')" class="bg-slate-200 hover:bg-slate-300 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-lg">⬇️ Exportar</button>
                 </div>
             `;
 
@@ -414,12 +578,12 @@
                 div.className = "p-4 border border-indigo-200 rounded-xl bg-indigo-50/50 flex justify-between items-start";
                 div.innerHTML = `
                     <div>
-                        <h3 class="font-bold text-indigo-900 text-sm">${plan.titulo}</h3>
-                        <p class="text-xs text-gray-600 mt-1">${plan.materia} | ${plan.nivel}</p>
+                        <h3 class="font-bold text-indigo-950 text-sm">${plan.titulo}</h3>
+                        <p class="text-xs text-slate-600 mt-1">${plan.materia} | Curs: ${plan.nivel}</p>
                     </div>
                     <div class="flex space-x-2">
-                        <button onclick="cargarPlanDesdeBanco(${index})" class="bg-amber-500 text-slate-950 text-xs font-bold px-2.5 py-1.5 rounded-lg hover:bg-amber-600">🧑‍🏫 Activar</button>
-                        <button onclick="alert('Generant PDF estructurat per al departament de direcció...')" class="bg-indigo-950 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg hover:bg-black">⬇️ PDF</button>
+                        <button onclick="cargarPlanDesdeBanco(${index})" class="bg-amber-400 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-amber-500">🧑‍🏫 Activar</button>
+                        <button onclick="alert('Exportant programació completa juntament amb la matriu de rúbrica en format compatible...')" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-black">⬇️ PDF</button>
                     </div>
                 `;
                 contenedor.appendChild(div);
@@ -432,28 +596,28 @@
         }
 
         function cargarEnAula(plan) {
-            document.getElementById('aula-titulo-sa').textContent = `${plan.titulo} — ${plan.nivel}`;
+            document.getElementById('aula-titulo-sa').textContent = `${plan.titulo} (${plan.nivel})`;
             document.getElementById('aula-secuencia').textContent = plan.actividades;
 
-            let htmlCurriculum = `<p class="font-semibold text-amber-400 mt-2">Competències (CE):</p><ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">`;
+            let htmlCurriculum = `<p class="font-bold text-amber-400 mt-2">Competències (CE):</p><ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">`;
             plan.ces.forEach(c => htmlCurriculum += `<li>${c}</li>`);
-            htmlCurriculum += `</ul><p class="font-semibold text-amber-400 mt-3">Criteris (CA):</p><ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">`;
+            htmlCurriculum += `</ul><p class="font-bold text-amber-400 mt-3">Criteris d'Avaluació (CA):</p><ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">`;
             plan.cas.forEach(c => htmlCurriculum += `<li>${c}</li>`);
-            htmlCurriculum += `</ul><p class="font-semibold text-amber-400 mt-3">Sabers:</p><ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">`;
+            htmlCurriculum += `</ul><p class="font-bold text-amber-400 mt-3">Sabers Integrats:</p><ul class="list-disc pl-4 space-y-1 mt-1 text-slate-300">`;
             plan.sabers.forEach(s => htmlCurriculum += `<li>${s}</li>`);
             htmlCurriculum += `</ul>`;
             document.getElementById('aula-curriculum').innerHTML = htmlCurriculum;
 
             if(plan.duaSeleccionados.length > 0) {
-                document.getElementById('aula-dua-pautas').innerHTML = `<strong>Pautes Decret 150/2017:</strong> <br> • ` + plan.duaSeleccionados.join('<br> • ');
+                document.getElementById('aula-dua-pautas').innerHTML = `<strong>Mesures operatives de l'atenció inclusiva:</strong> <br> • ` + plan.duaSeleccionados.join('<br> • ');
             } else {
-                document.getElementById('aula-dua-pautas').textContent = "Pautes DUA universals activades per defecte.";
+                document.getElementById('aula-dua-pautas').textContent = "Pautes universals de l'organització d'espais de laboratori.";
             }
         }
 
-        // CRONÓMETRO DE TALLER / REPTES
+        // CONTROL TIMERS DE CLASE
         let timerInterval;
-        let timeRemaining = 2700; // 45 minutos de sesión práctica estándar
+        let timeRemaining = 2700; // 45 minutos estándar
         let timerRunning = false;
 
         function toggleTimer() {
@@ -461,17 +625,17 @@
             if (timerRunning) {
                 clearInterval(timerInterval);
                 btn.textContent = "⏱️ Reprendre";
-                btn.className = "bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold p-2 rounded-lg text-sm";
+                btn.className = "bg-amber-400 hover:bg-amber-500 text-slate-950 font-black px-3 py-2 rounded-lg text-xs uppercase";
                 timerRunning = false;
             } else {
                 timerRunning = true;
                 btn.textContent = "⏸️ Pausa";
-                btn.className = "bg-red-600 hover:bg-red-700 text-white font-bold p-2 rounded-lg text-sm";
+                btn.className = "bg-red-600 hover:bg-red-700 text-white font-black px-3 py-2 rounded-lg text-xs uppercase";
                 timerInterval = setInterval(() => {
                     if (timeRemaining <= 0) {
                         clearInterval(timerInterval);
                         document.getElementById('timer-display').textContent = "00:00";
-                        alert("🔔 El temps dedicat al repte de la sessió ha acabat. Tancament de la sessió i recollida del taller.");
+                        alert("🔔 El temps de la pràctica de laboratori / taller ha expirat. Atureu les màquines i procediu a endreçar.");
                     } else {
                         timeRemaining--;
                         let mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
