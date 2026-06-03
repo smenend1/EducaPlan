@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaPlan PWA Pro - ESO Catalunya</title>
+    <!-- Tailwind CSS v4 per a un disseny modern -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Llibreria oficial jsPDF: Ultra ràpida, el navegador mai es penja -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         .tabs-content { display: none; }
         .tabs-content.active { display: block; }
@@ -13,6 +15,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
+    <!-- HEADER PRINCIPAL -->
     <header class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 border-b border-indigo-500/20">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col lg:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
@@ -34,6 +37,7 @@
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
 
+        <!-- ================= VARIANTE 1: DISSENYADOR & PLANTILLES OFICIALS ================= -->
         <section id="tab-diseñador" class="tabs-content active space-y-6">
             <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6 border-b border-slate-100 pb-4">
@@ -47,6 +51,7 @@
                 </div>
                 
                 <form id="form-planificacion" class="space-y-6" onsubmit="event.preventDefault(); generarPlanificacion();">
+                    <!-- Datos Base -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Situació d'Aprenentatge (Títol)</label>
@@ -73,6 +78,7 @@
                         </div>
                     </div>
 
+                    <!-- DESPLEGABLES DINÁMICOS CURRICULARES -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
                         <div>
                             <label class="block text-xs font-bold text-indigo-300 uppercase mb-1.5">Competències Específiques (CE)</label>
@@ -94,6 +100,7 @@
                         </div>
                     </div>
 
+                    <!-- DESARROLLO INCLUSIVO DUA A FONDO (DECRET 150/2017) -->
                     <div class="bg-emerald-50/60 p-6 rounded-2xl border border-emerald-200/60 space-y-4">
                         <div class="border-b border-emerald-200 pb-2">
                             <h3 class="text-md font-black text-emerald-950 uppercase flex items-center gap-2">
@@ -153,6 +160,7 @@
                         </div>
                     </div>
 
+                    <!-- Secuencia Didáctica Breve -->
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Seqüència d'Activitats de la Sessió (Inici, Desenvolupament, Tancament)</label>
                         <textarea id="sa-actividades" rows="3" required placeholder="Descriu de forma seqüencial el que succeirà a l'aula o laboratori..." class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium text-slate-700"></textarea>
@@ -165,6 +173,7 @@
             </div>
         </section>
 
+        <!-- ================= VARIANTE 2: GENERADOR DE RÚBRICAS LOMLOE ================= -->
         <section id="tab-rubrica" class="tabs-content space-y-6">
             <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
@@ -198,6 +207,7 @@
             </div>
         </section>
 
+        <!-- ================= VARIANTE 3: EL CUADERNO DEL PROFESOR ================= -->
         <section id="tab-cuaderno" class="tabs-content space-y-6">
             <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
                 <div class="flex justify-between items-center mb-4">
@@ -236,21 +246,20 @@
             </div>
         </section>
 
+        <!-- ================= VARIANTE 4: BANCO DE RECURSOS (EXPORTACIÓN REAL) ================= -->
         <section id="tab-banco" class="tabs-content space-y-6">
             <div class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200">
                 <h2 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">📁 Dipòsit d'Unitats i Situacions de l'Àmbit STEM</h2>
                 <div id="contenedor-archivos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-start">
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-sm">Exemple de Referència: Reg Automatitzat Smart Greenhouse</h3>
-                            <p class="text-xs text-slate-500 mt-1">Tecnologia | 3r d'ESO | DUA actiu i completat</p>
-                        </div>
-                        <button onclick="alert('Usa una plantilla de dalt per desar i activar la descàrrega PDF real.')" class="bg-slate-200 text-slate-400 text-xs font-bold px-3 py-1.5 rounded-lg cursor-not-allowed">⬇️ Base</button>
+                    <!-- Es carregarà dinàmicament quan es desi una programació -->
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-center text-xs text-slate-400 font-bold italic">
+                        No hi ha cap programació desada al dipòsit. Crea'n una al "Dissenyador" per poder provar la descàrrega.
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ================= VARIANTE 5: MODE "A L'AULA" ================= -->
         <section id="tab-aula" class="tabs-content space-y-6">
             <div class="bg-slate-950 text-slate-100 p-6 rounded-2xl shadow-2xl border border-slate-800">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6">
@@ -284,11 +293,9 @@
             </div>
         </section>
 
-        <div id="plantilla-pdf-render" class="hidden bg-white p-10 text-slate-900 text-sm space-y-6 font-sans">
-            </div>
-
     </main>
 
+    <!-- MOTOR DE SCRIPT RECONSTRUÏT AMB jspdf NAIU (ZERO COL·LAPSE) -->
     <script>
         const curriculumData = {
             tecnologia: {
@@ -317,7 +324,7 @@
                 ca: [
                     "CA 1.2. Mantenir la identitat digital i dades personals protegides contra atacs i programari maliciós.",
                     "CA 2.1. Desenvolupar algorismes per resoldre problemes matemàtics/lògics utilitzant llenguatges de codi.",
-                    "CA 3.3. Configurar xarxes cablejades i sense fils associant configuracions d'adreces IP estàndard."
+                    "CA 3.3. Configurar xarxes cablejades i sense fils associant configuracions d'adreces IP adiabàtiques."
                 ],
                 sabers: [
                     "Sabers: Ciberseguretat activa: encriptació de dades, programari espia i hàbits de navegació segura.",
@@ -363,7 +370,7 @@
                 ce: [
                     "CE.1. Dissenyar i executar experiments en el laboratori aplicant fases de la recerca científica.",
                     "CE.2. Modelar les estructures íntimes de la matèria a partir de reaccions i models atòmics.",
-                    "CE.3. Relacionar les forces mecàniques amb canvis en l'estat del moviment d'objectes reals."
+                    "CE.3. Relacionar las forces mecàniques amb canvis en l'estat del moviment d'objectes reals."
                 ],
                 ca: [
                     "CA 1.2. Recollir dades de variables de laboratori de forma rigorosa emprant unitats del Sistema Internacional.",
@@ -401,7 +408,7 @@
             },
             fisica: {
                 titulo: "Determinació experimental de la gravetat en plans inclinats",
-                actividades: "Inici: Repàs de les forces mecàniques i del caràcter vectorial del moviment.\nDesenvolupament: Llançament de boles d'acer per rampes a diferents angles. Mesura de temps amb cronòmetre digital per extreure l'acceleració lineal.\nTancament: CCàlcul de l'error experimental respecte al valor de g teòric de 9.8 m/s².",
+                actividades: "Inici: Repàs de les forces mecàniques i del caràcter vectorial del moviment.\nDesenvolupament: Llançament de boles d'acer per rampes a diferents angles. Mesura de temps amb cronòmetre digital per extreure l'acceleració lineal.\nTancament: Càlcul de l'error experimental respecte al valor de g teòric de 9.8 m/s².",
                 ce: [0, 2], ca: [0, 2], sabers: [0, 2]
             }
         };
@@ -529,7 +536,7 @@
             cargarEnAula(nuevaPlanificacion);
             construirRubrica();
             
-            alert("✨ Situació d'Aprenentatge guardada al Dipòsit. Ja pots descarregar el PDF real.");
+            alert("✨ Situació d'Aprenentatge guardada al Dipòsit. Ja pots descarregar el PDF.");
             switchTab('tab-banco');
         }
 
@@ -539,15 +546,15 @@
 
             planificacionesGuardadas.forEach((plan, index) => {
                 const div = document.createElement('div');
-                div.className = "p-4 border border-indigo-200 rounded-xl bg-indigo-50/50 flex justify-between items-start shadow-xs";
+                div.className = "p-4 border border-indigo-200 rounded-xl bg-indigo-50/50 flex justify-between items-center shadow-xs";
                 div.innerHTML = `
                     <div>
                         <h3 class="font-bold text-indigo-950 text-sm">${plan.titulo}</h3>
                         <p class="text-xs text-slate-600 mt-1">${plan.materia} | ${plan.nivel}</p>
                     </div>
                     <div class="flex space-x-1">
-                        <button onclick="cargarPlanDesdeBanco(${index})" class="bg-amber-400 text-slate-950 text-xs font-bold px-2.5 py-1.5 rounded-lg hover:bg-amber-500">🧑‍🏫 Activar</button>
-                        <button onclick="descarregarPDF(${index})" class="bg-slate-900 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg hover:bg-black transition">⬇️ PDF</button>
+                        <button onclick="cargarPlanDesdeBanco(${index})" class="bg-amber-400 text-slate-950 text-xs font-bold px-3 py-2 rounded-lg hover:bg-amber-500">🧑‍🏫 Activar</button>
+                        <button onclick="descarregarPDF(${index})" class="bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-lg hover:bg-black transition">⬇️ PDF</button>
                     </div>
                 `;
                 contenedor.appendChild(div);
@@ -579,111 +586,108 @@
             }
         }
 
-        // MOTOR DE DESCÀRREGA DE PDF REAL USANT HTML2PDF
+        // MOTOR DE GENERACIÓ DE PDF SOLIDS I INSTANTANIS AMB jsPDF NTIU (SENSE COL·LAPSE)
         function descarregarPDF(index) {
             const plan = planificacionesGuardadas[index];
-            const contenedorRender = document.getElementById('plantilla-pdf-render');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            
+            let y = 15; // Control de posició vertical
+            const marginX = 15;
+            const pageHeight = 280;
 
-            // 1. Re-muntar una estructura HTML ultra neta, corporativa i sense botons per al PDF
-            let htmlContenido = `
-                <div style="font-family: Arial, sans-serif; color: #1e293b; padding: 10px;">
-                    <div style="border-bottom: 3px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 20px;">
-                        <h1 style="font-size: 24px; color: #1e3a8a; margin: 0; font-weight: bold;">DOCUMENT DE PROGRAMACIÓ OFICIAL LOMLOE</h1>
-                        <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">Generat automàticament via EducaPlan PWA • Generalitat de Catalunya</p>
-                    </div>
+            // Funció interna de seguretat per escriure text multilínia i saltar de pàgina si és necessari
+            function imprimirTexto(texto, fontSize, fontStyle = 'normal', color = [30, 41, 59], espaiExtra = 5) {
+                doc.setFont("Helvetica", fontStyle);
+                doc.setFontSize(fontSize);
+                doc.setTextColor(color[0], color[1], color[2]);
+                
+                // Dividir el text automàticament segons l'amplada de la pàgina DinA4
+                const linies = doc.splitTextToSize(texto, 180);
+                
+                linies.forEach(linia => {
+                    if (y > pageHeight) {
+                        doc.addPage();
+                        y = 15;
+                    }
+                    doc.text(linia, marginX, y);
+                    y += (fontSize * 0.4) + 1.5;
+                });
+                y += espaiExtra;
+            }
 
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-                        <tr style="background-color: #f1f5f9;">
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold; width: 25%;">Situació d'Aprenentatge:</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; color: #0f172a; font-weight: bold;">${plan.titulo}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold;">Assignatura / Àmbit:</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1;">${plan.materia}</td>
-                        </tr>
-                        <tr style="background-color: #f1f5f9;">
-                            <td style="padding: 8px; border: 1px solid #cbd5e1; font-weight: bold;">Curs d'ESO:</td>
-                            <td style="padding: 8px; border: 1px solid #cbd5e1;">${plan.nivel}</td>
-                        </tr>
-                    </table>
+            // 1. Encapçalament
+            imprimirTexto("DOCUMENT DE PROGRAMACIÓ OFICIAL LOMLOE", 16, 'bold', [30, 58, 138], 2);
+            imprimirTexto("Generat via EducaPlan PWA Pro • Àmbit d'ESO Catalunya", 9, 'italic', [100, 116, 139], 8);
+            
+            // Línia divisòria
+            doc.setDrawColor(30, 58, 138);
+            doc.setLineWidth(0.5);
+            doc.line(marginX, y, 195, y);
+            y += 8;
 
-                    <div style="margin-bottom: 20px;">
-                        <h2 style="font-size: 15px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; font-weight: bold;">1. REFERENTS CURRICULARS VIGENTS</h2>
-                        <p style="font-weight: bold; font-size: 12px; margin-bottom: 4px; color: #475569;">Competències Específiques (CE):</p>
-                        <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 12px;">
-                            ${plan.ces.map(c => `<li style="margin-bottom:3px;">${c}</li>`).join('')}
-                        </ul>
-                        <p style="font-weight: bold; font-size: 12px; margin-bottom: 4px; color: #475569;">Criteris d'Avaluació Associats (CA):</p>
-                        <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 12px;">
-                            ${plan.cas.map(c => `<li style="margin-bottom:3px;">${c}</li>`).join('')}
-                        </ul>
-                        <p style="font-weight: bold; font-size: 12px; margin-bottom: 4px; color: #475569;">Sabers Bàsics d'Assignatura:</p>
-                        <ul style="margin: 0; padding-left: 20px; font-size: 12px;">
-                            ${plan.sabers.map(s => `<li style="margin-bottom:3px;">${s}</li>`).join('')}
-                        </ul>
-                    </div>
+            // 2. Dades Generals
+            imprimirTexto(`Situació d'Aprenentatge: ${plan.titulo}`, 12, 'bold', [15, 23, 42], 2);
+            imprimirTexto(`Assignatura: ${plan.materia}`, 11, 'normal', [51, 65, 85], 2);
+            imprimirTexto(`Curs i Nivell: ${plan.nivel}`, 11, 'normal', [51, 65, 85], 8);
 
-                    <div style="margin-bottom: 20px; background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px; rounded: 8px;">
-                        <h2 style="font-size: 14px; color: #14532d; margin: 0 0 6px 0; font-weight: bold;">2. MESURES ATENCIÓ INCLUSIVA DUA (Decret 150/2017)</h2>
-                        <ul style="margin: 0; padding-left: 25px; font-size: 12px; color: #166534;">
-                            ${plan.duaSeleccionados.length > 0 ? plan.duaSeleccionados.map(d => `<li style="margin-bottom:3px;">${d}</li>`).join('') : '<li>Mesures universals organitzatives establertes pel departament STEM.</li>'}
-                        </ul>
-                    </div>
+            // 3. Referents Curriculars
+            imprimirTexto("1. REFERENTS CURRICULARS SELECCIONATS", 13, 'bold', [30, 58, 138], 4);
+            
+            imprimirTexto("Competències Específiques (CE):", 11, 'bold', [71, 85, 105], 2);
+            plan.ces.forEach(c => imprimirTexto(`• ${c}`, 10, 'normal', [15, 23, 42], 1));
+            y += 3;
 
-                    <div style="margin-bottom: 25px;">
-                        <h2 style="font-size: 15px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; font-weight: bold;">3. SEQÜÈNCIA D'ACTIVITATS AL TALLER / LABORATORI</h2>
-                        <p style="font-size: 12px; line-height: 1.5; background-color: #fafafa; padding: 10px; border: 1px solid #e2e8f0; white-space: pre-line;">${plan.actividades}</p>
-                    </div>
+            imprimirTexto("Criteris d'Avaluació Associats (CA):", 11, 'bold', [71, 85, 105], 2);
+            plan.cas.forEach(c => imprimirTexto(`• ${c}`, 10, 'normal', [15, 23, 42], 1));
+            y += 3;
 
-                    <div style="page-break-before: always; padding-top: 15px;">
-                        <h2 style="font-size: 15px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; font-weight: bold; margin-bottom: 10px;">4. MATRIU DE RÚBRICA PER A L'AVALUACIÓ COMPETENCIAL</h2>
-                        <table style="width: 100%; border-collapse: collapse; font-size: 10px; text-align: left;">
-                            <thead>
-                                <tr style="background-color: #0f172a; color: #ffffff;">
-                                    <th style="padding: 6px; border: 1px solid #475569; width: 22%;">Criteri (CA)</th>
-                                    <th style="padding: 6px; border: 1px solid #475569; background-color: #064e3b; color: #a7f3d0;">AE - Excel·lent (9-10)</th>
-                                    <th style="padding: 6px; border: 1px solid #475569; background-color: #1e1b4b; color: #c7d2fe;">AN - Notable (7-8)</th>
-                                    <th style="padding: 6px; border: 1px solid #475569; background-color: #451a03; color: #fed7aa;">AS - Satisfactori (5-6)</th>
-                                    <th style="padding: 6px; border: 1px solid #475569; background-color: #450a0a; color: #fca5a5;">NA - No Assolit (1-4)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${plan.cas.map(crit => {
-                                    const codi = crit.split('.')[0] + '.' + (crit.split('.')[1] ? crit.split('.')[1].split(' ')[0] : '1');
-                                    return `
-                                        <tr>
-                                            <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight: bold; background-color: #f8fafc;">${crit}</td>
-                                            <td style="padding: 6px; border: 1px solid #cbd5e1; background-color: #f0fdf4;">Domini complet de ${codi}. Treballa amb autonomia absoluta, optimitza el prototip o disseny i proposa millores.</td>
-                                            <td style="padding: 6px; border: 1px solid #cbd5e1; background-color: #e0e7ff;">Compleix clarament amb ${codi}. Executa les fases lògiques, programa o calcula sense gairebé errors.</td>
-                                            <td style="padding: 6px; border: 1px solid #cbd5e1; background-color: #fff7ed;">Llindar mínim de ${codi}. Necessita guiatge pautat i instruccions simplificades de taller.</td>
-                                            <td style="padding: 6px; border: 1px solid #cbd5e1; background-color: #fef2f2;">No evidencia fites per a ${codi}. Dificultats greus per manipular eines o recollir dades.</td>
-                                        </tr>
-                                    `;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
+            imprimirTexto("Sabers Bàsics Integrats:", 11, 'bold', [71, 85, 105], 2);
+            plan.sabers.forEach(s => imprimirTexto(`• ${s}`, 10, 'normal', [15, 23, 42], 1));
+            y += 6;
 
-            contenedorRender.innerHTML = htmlContenido;
+            // 4. Marc DUA
+            imprimirTexto("2. MESURES D'ATENCIÓ INCLUSIVA (DUA Decret 150/2017)", 13, 'bold', [30, 58, 138], 4);
+            if(plan.duaSeleccionados.length > 0) {
+                plan.duaSeleccionados.forEach(d => imprimirTexto(`✔ ${d}`, 10, 'normal', [22, 101, 52], 1));
+            } else {
+                imprimirTexto("• S'apliquen mesures universals d'aula i flexibilització d'equips.", 10, 'normal', [15, 23, 42], 1);
+            }
+            y += 6;
 
-            // 2. Paràmetres oficials de configuració d'html2pdf per un acabat net en DinA4
-            const opcionesConfig = {
-                margin:       [12, 12, 12, 12],
-                filename:     `LOMLOE_ESO_${plan.titulo.replace(/\s+/g, '_')}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
+            // 5. Seqüència Didàctica
+            imprimirTexto("3. SEQÜÈNCIA D'ACTIVITATS PLANIFICADES", 13, 'bold', [30, 58, 138], 4);
+            imprimirTexto(plan.actividades, 10, 'normal', [15, 23, 42], 8);
 
-            // 3. Execució de la descàrrega nativa de la PWA
-            html2pdf().set(opcionesConfig).from(contenedorRender).save().then(() => {
-                contenedorRender.innerHTML = ''; // Neteja de memòria
+            // 6. Rúbrica Competencial (Maquetació neta línia a línia de seguretat)
+            doc.addPage();
+            y = 15;
+            imprimirTexto("4. MATRIU DE RÚBRICA PER A L'AVALUACIÓ LOMLOE", 14, 'bold', [30, 58, 138], 6);
+
+            plan.cas.forEach(crit => {
+                const codi = crit.split('.')[0] + '.' + (crit.split('.')[1] ? crit.split('.')[1].split(' ')[0] : '1');
+                
+                imprimirTexto(`CRITERI: ${crit}`, 11, 'bold', [15, 23, 42], 2);
+                
+                // Forcem fites textuals clares evitant taules HTML que puguin penjar el sistema
+                imprimirTexto(`[AE - Excel·lent]: Domini complet i òptim de ${codi}. Executa l'activitat amb total autonomia, seguretat i resolució eficient al taller.`, 9, 'normal', [6, 78, 59], 1);
+                imprimirTexto(`[AN - Notable]: Compleix clarament amb ${codi}. Treballa correctament sense gairebé cometre errors de procediment.`, 9, 'normal', [30, 27, 75], 1);
+                imprimirTexto(`[AS - Satisfactori]: Assoleix el llindar elemental de ${codi}. Executa la tasca utilitzant pautes i guies constants d'ajuda.`, 9, 'normal', [69, 26, 3], 1);
+                imprimirTexto(`[NA - No Assolit]: No evidencia fites suficients per a ${codi}. Dificultats severes en l'ús d'eines o anàlisi de dades.`, 9, 'normal', [69, 10, 10], 4);
+                
+                // Línia suau separadora de criteris
+                doc.setDrawColor(226, 232, 240);
+                doc.setLineWidth(0.3);
+                doc.line(marginX, y, 195, y);
+                y += 5;
             });
+
+            // Forçar descàrrega immediata al navegador
+            const nomFitxer = `LOMLOE_ESO_${plan.titulo.toLowerCase().replace(/[^a-z0-9]/g, '_')}.pdf`;
+            doc.save(nomFitxer);
         }
 
-        // CONTROL TIMERS DE CLASE
+        // TIMERS
         let timerInterval;
         let timeRemaining = 2700;
         let timerRunning = false;
