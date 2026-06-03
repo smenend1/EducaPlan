@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EducaPlan PWA - Catalunya LOMLOE</title>
+    <!-- Tailwind CSS para un diseño limpio y moderno -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .tabs-content { display: none; }
+        .tabs-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- HEADER & NAVEGACIÓN -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl">🧠</span>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">EducaPlan PWA</h1>
+                    <p class="text-xs text-indigo-200">Adaptat al Decret 175/2022 i Decret 150/2017 (DUA)</p>
+                </div>
+            </div>
+            <nav class="flex space-x-1 bg-indigo-950 p-1 rounded-lg text-xs md:text-sm">
+                <button onclick="switchTab('tab-diseñador')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-white bg-indigo-600">1. Dissenyador IA</button>
+                <button onclick="switchTab('tab-cuaderno')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-indigo-300 hover:text-white">2. Quadern</button>
+                <button onclick="switchTab('tab-banco')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-indigo-300 hover:text-white">3. Recursos</button>
+                <button onclick="switchTab('tab-aula')" class="tab-btn px-3 py-1.5 rounded-md font-medium text-indigo-300 hover:text-white">4. A l'Aula</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6">
+
+        <!-- ================= VARIANTE 1: EL DISEÑADOR DE CLASES (PLANTILLA OFICIAL LOMLOE) ================= -->
+        <section id="tab-diseñador" class="tabs-content active space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    <span>📋</span> Plantilla Oficial de Programació Didàctica (Catalunya)
+                </h2>
+                <p class="text-sm text-gray-500 mb-6">Omple els camps bàsics i utilitza els desplegables curriculars per automatitzar la planificació.</p>
+                
+                <form id="form-planificacion" class="space-y-6" onsubmit="event.preventDefault(); generarPlanificacion();">
+                    <!-- Datos Generales -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Situació d'Aprenentatge (Títol)</label>
+                            <input type="text" id="sa-titulo" required placeholder="Ex: El viatge de l'aigua" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Matèria / Àmbit</label>
+                            <select id="sa-materia" onchange="actualizarCurriculum()" class="w-full p-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <option value="llengua">Llengua Catalana i Literatura</option>
+                                <option value="medi">Coneixement del Medi Natural, Social i Cultural</option>
+                                <option value="mates">Matemàtiques</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Curs / Nivell</label>
+                            <select id="sa-nivel" class="w-full p-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <option value="1">1r de Primària</option>
+                                <option value="3">3r de Primària</option>
+                                <option value="5">5è de Primària</option>
+                                <option value="eso1">1r d'ESO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- DESPLEGABLES DINÁMICOS CURRICULARES (FLEXIBLES Y FUNCIONALES) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                        <div>
+                            <label class="block text-xs font-bold text-indigo-900 uppercase mb-1">Competències Específiques (CE)</label>
+                            <select id="drop-ce" class="w-full p-2 text-sm border border-indigo-300 rounded-lg bg-white outline-none"></select>
+                            <button type="button" onclick="agregarElemento('drop-ce', 'lista-ce')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-1.5 rounded-md font-medium transition">+ Afegir Competència</button>
+                            <ul id="lista-ce" class="mt-2 text-xs space-y-1 text-gray-700 list-disc pl-4"></ul>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-indigo-900 uppercase mb-1">Criteris d'Avaluació (CA)</label>
+                            <select id="drop-ca" class="w-full p-2 text-sm border border-indigo-300 rounded-lg bg-white outline-none"></select>
+                            <button type="button" onclick="agregarElemento('drop-ca', 'lista-ca')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-1.5 rounded-md font-medium transition">+ Afegir Criteri</button>
+                            <ul id="lista-ca" class="mt-2 text-xs space-y-1 text-gray-700 list-disc pl-4"></ul>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-indigo-900 uppercase mb-1">Sabers Axiològics / Continguts</label>
+                            <select id="drop-sabers" class="w-full p-2 text-sm border border-indigo-300 rounded-lg bg-white outline-none"></select>
+                            <button type="button" onclick="agregarElemento('drop-sabers', 'lista-sabers')" class="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs py-1.5 rounded-md font-medium transition">+ Afegir Saber</button>
+                            <ul id="lista-sabers" class="mt-2 text-xs space-y-1 text-gray-700 list-disc pl-4"></ul>
+                        </div>
+                    </div>
+
+                    <!-- BLOQUE INCLUSIÓN DECRET 150/2017: PRINCIPIOS DUA -->
+                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                        <h3 class="text-sm font-bold text-emerald-900 uppercase mb-3 flex items-center gap-1">
+                            🌱 Mesures Universals DUA (Decret 150/2017)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <label class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-emerald-200 cursor-pointer">
+                                <input type="checkbox" name="dua" value="Múltiples formes de representació (Visual, Àudio, Text)" class="mt-0.5 text-emerald-600 rounded">
+                                <span><strong>Representació:</strong> Proporcionar alternatives visuals, d'àudio i textos adaptats.</span>
+                            </label>
+                            <label class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-emerald-200 cursor-pointer">
+                                <input type="checkbox" name="dua" value="Múltiples formes d'acció i expressió (Oral, Escrit, Projecte)" class="mt-0.5 text-emerald-600 rounded">
+                                <span><strong>Acció i Expressió:</strong> Permetre lliuraments via oral, text, maquetes o digital.</span>
+                            </label>
+                            <label class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-emerald-200 cursor-pointer">
+                                <input type="checkbox" name="dua" value="Múltiples formes d'implicació (Treball cooperatiu, autoavaluació)" class="mt-0.5 text-emerald-600 rounded">
+                                <span><strong>Implicació:</strong> Fomentar el treball cooperatiu, opcions d'elecció i reptes graduals.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Secuencia Didáctica Breve -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Seqüència d'Activitats (Inici, Desenvolupament, Tancament)</label>
+                        <textarea id="sa-actividades" rows="3" required placeholder="Descriu breument com es desenvoluparà la sessió..." class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-900 hover:bg-indigo-950 text-white font-bold py-3 px-4 rounded-lg shadow-md transition">
+                        ✨ Generar i Desar Planificació Curricular
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= VARIANTE 2: EL CUADERNO DEL PROFESOR (GESTIÓN) ================= -->
+        <section id="tab-cuaderno" class="tabs-content space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">🗓️ Quadern de l'Aula i Seguiment</h2>
+                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-sm">Curs Actual: 2026/2027</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-3">Alumne/a</th>
+                                <th class="px-4 py-3">Asistència</th>
+                                <th class="px-4 py-3">CE.1 (Criteri 1.1)</th>
+                                <th class="px-4 py-3">Suport DUA Requerit</th>
+                                <th class="px-4 py-3">Observacions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-gray-900">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium">Martí Serra, Pol</td>
+                                <td class="px-4 py-3"><span class="text-green-600 font-bold">Present</span></td>
+                                <td class="px-4 py-3"><select class="p-1 border rounded bg-white text-xs"><option>Assolit (A)</option><option>En procés (EP)</option></select></td>
+                                <td class="px-4 py-3 text-xs text-gray-500">Cap (Mesures Universals)</td>
+                                <td class="px-4 py-3"><input type="text" placeholder="Anotar..." class="p-1 border rounded text-xs w-full"></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium">Vila Rovira, Júlia</td>
+                                <td class="px-4 py-3"><span class="text-green-600 font-bold">Present</span></td>
+                                <td class="px-4 py-3"><select class="p-1 border rounded bg-white text-xs"><option>Excel·lent (EX)</option><option>Assolit (A)</option></select></td>
+                                <td class="px-4 py-3 text-xs text-emerald-700 font-semibold">Format Àudio / Lector de Text</td>
+                                <td class="px-4 py-3"><input type="text" placeholder="Anotar..." class="p-1 border rounded text-xs w-full"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VARIANTE 3: BANCO DE RECURSOS (EXPORTACIÓN) ================= -->
+        <section id="tab-banco" class="tabs-content space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">📁 Dipòsit de Programacions de Catalunya</h2>
+                <div id="contenedor-archivos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Tarjeta de ejemplo por defecto -->
+                    <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-indigo-900 text-sm">Exemple Oficial: Ecosistemes i Sostenibilitat</h3>
+                            <p class="text-xs text-gray-500 mt-1">Medi Natural | 5è Primària | DUA actiu</p>
+                        </div>
+                        <button onclick="alert('Exportant document oficial en format PDF/Word compatible amb inspecció...')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-900 text-xs font-bold px-3 py-1.5 rounded-lg transition">⬇️ Exportar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VARIANTE 4 / MÓDULO ADICIONAL: MODE "A L'AULA" ================= -->
+        <section id="tab-aula" class="tabs-content space-y-6">
+            <div class="bg-slate-900 text-slate-100 p-6 rounded-xl shadow-xl border border-slate-800">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6">
+                    <div>
+                        <span class="bg-amber-500 text-slate-950 text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Mode de Presentació Actiu</span>
+                        <h2 class="text-2xl font-black text-white mt-1" id="aula-titulo-sa">Sense Situació Seleccionada</h2>
+                    </div>
+                    <!-- Cronómetro de clase integrado -->
+                    <div class="mt-4 md:mt-0 bg-slate-800 p-3 rounded-xl border border-slate-700 flex items-center space-x-4">
+                        <div class="text-right">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase">Temps de l'activitat</p>
+                            <p id="timer-display" class="text-2xl font-mono font-bold text-amber-400">20:00</p>
+                        </div>
+                        <button onclick="toggleTimer()" id="btn-timer" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold p-2 rounded-lg transition text-sm">⏱️ Iniciar</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Panel Izquierdo: Ruta curricular rápida -->
+                    <div class="md:col-span-1 bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4 text-xs">
+                        <div>
+                            <h4 class="font-bold text-indigo-400 uppercase tracking-wider mb-2">📌 Competències i Criteris d'avui</h4>
+                            <div id="aula-curriculum" class="text-slate-300 space-y-2 list-disc pl-2">Selecciona o genera una planificació per visualitzar-la en temps real aquí.</div>
+                        </div>
+                    </div>
+                    <!-- Panel Central: Guión de la clase paso a paso -->
+                    <div class="md:col-span-2 bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+                        <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider">🚀 Guió de la Sessió per al Docent</h3>
+                        <p id="aula-secuencia" class="text-slate-300 text-sm leading-relaxed">Els detalls de la teva seqüència didàctica es mostraran aquí en alta claredat per seguir la classe còmodament des de la teva tauleta o projector.</p>
+                        
+                        <!-- Pautas DUA flotantes de ayuda instantánea -->
+                        <div class="p-3 bg-emerald-950/50 border border-emerald-800/60 rounded-lg">
+                            <h4 class="text-xs font-bold text-emerald-400 uppercase flex items-center gap-1 mb-1">💡 Recordatori d'Inclusió (Decret 150/2017)</h4>
+                            <p class="text-xs text-slate-300" id="aula-dua-pautas">Recorda oferir el contingut de forma visual i permetre la co-avaluació entre iguals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BANCO DE DATOS DEL CURRÍCULUM OFICIAL LOMLOE (CATALUNYA) -->
+    <script>
+        const curriculumData = {
+            llengua: {
+                ce: [
+                    "CE.1. Descodificar i interpretar textos orals i multimodals de la vida quotidiana.",
+                    "CE.2. Produir textos orals expressant idees, fets i sentiments de forma coherent.",
+                    "CE.5. Llegir de manera autònoma textos seleccionats adequats a la seva edat."
+                ],
+                ca: [
+                    "CA 1.1. Identificar el sentit global i la informació rellevant de textos orals.",
+                    "CA 2.3. Expressar-se oralment amb pronunciació i entonació adequades.",
+                    "CA 5.2. Aplicar estratègies de comprensió lectora abans, durant i després de la lectura."
+                ],
+                sabers: [
+                    "Sabers: Comprensió i expressió oral espontània.",
+                    "Sabers: Estratègies elementals de comprensió lectora.",
+                    "Sabers: Tipologies textuals: la narració i la descripció."
+                ]
+            },
+            medi: {
+                ce: [
+                    "CE.1. Utilitzar dispositius i recursos digitals de forma segura i guiada.",
+                    "CE.2. Plantejar preguntes i realitzar experiments senzills sobre la natura.",
+                    "CE.4. Identificar causes i conseqüències d'accions humanes en l'entorn."
+                ],
+                ca: [
+                    "CA 1.2. Cercar informació digital utilitzant cercadors segurs de manera guiada.",
+                    "CA 2.1. Formular hipòtesis senzilles sobre fenòmens naturals observables.",
+                    "CA 4.3. Proposar hàbits de consum responsable i cura del medi ambient."
+                ],
+                sabers: [
+                    "Sabers: El mètode científic: observació i formulació de preguntes.",
+                    "Sabers: Els ecosistemes: components i relacions d'equilibri.",
+                    "Sabers: L'impacte humà sobre la biodiversitat i el clima."
+                ]
+            },
+            mates: {
+                ce: [
+                    "CE.1. Resoldre problemes de la vida quotidiana aplicant diferents estratègies.",
+                    "CE.2. Formular i comprovar conjectures senzilles en contextos matemàtics.",
+                    "CE.5. Utilitzar connexions entre diferents conceptes matemàtics."
+                ],
+                ca: [
+                    "CA 1.2. Reconèixer problemes quotidians i traduir-los a operacions bàsiques.",
+                    "CA 2.2. Explicar el procés seguit en la resolució de problemes o reptes.",
+                    "CA 5.1. Relacionar conceptes geomètrics bàsics amb objectes del món real."
+                ],
+                sabers: [
+                    "Sabers: Sentit numèric: càlcul mental, sumes i restes amb sentit.",
+                    "Sabers: Resolució de problemes i reptes de la vida real.",
+                    "Sabers: Figures geomètriques i la seva orientació a l'espai."
+                ]
+            }
+        };
+
+        // LÓGICA DE CONTROL DE LA INTERFAZ (TABS)
+        function switchTab(tabId) {
+            document.querySelectorAll('.tabs-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('text-indigo-300', 'hover:text-white');
+            });
+            event.currentTarget.classList.add('bg-indigo-600', 'text-white');
+            event.currentTarget.classList.remove('text-indigo-300', 'hover:text-white');
+        }
+
+        // CONTROL ACTUALIZACIÓN DE DESPLEGABLES
+        function actualizarCurriculum() {
+            const materiaSelect = document.getElementById('sa-materia').value;
+            const data = curriculumData[materiaSelect];
+
+            const llenarSelect = (id, array) => {
+                const select = document.getElementById(id);
+                select.innerHTML = '';
+                array.forEach(item => {
+                    let opt = document.createElement('option');
+                    opt.value = item;
+                    opt.textContent = item;
+                    select.appendChild(opt);
+                });
+            };
+
+            llenarSelect('drop-ce', data.ce);
+            llenarSelect('drop-ca', data.ca);
+            llenarSelect('drop-sabers', data.sabers);
+        }
+
+        // GESTIÓN DINÁMICA DE ITEMS SELECCIONADOS
+        function agregarElemento(selectId, listaId) {
+            const select = document.getElementById(selectId);
+            const lista = document.getElementById(listaId);
+            const valor = select.value;
+
+            if(!valor) return;
+
+            // Evitar duplicados simples
+            if(Array.from(lista.children).some(li => li.textContent === valor)) return;
+
+            const li = document.createElement('li');
+            li.textContent = valor;
+            li.className = "cursor-pointer hover:text-red-600 transition";
+            li.title = "Fes clic per eliminar";
+            li.onclick = () => li.remove();
+            lista.appendChild(li);
+        }
+
+        // MOTOR DE ACCIÓN: GENERAR PROGRAMACIÓN COMPLETA
+        let planificacionesGuardadas = [];
+
+        function generarPlanificacion() {
+            const titulo = document.getElementById('sa-titulo').value;
+            const materia = document.getElementById('sa-materia').options[document.getElementById('sa-materia').selectedIndex].text;
+            const nivel = document.getElementById('sa-nivel').options[document.getElementById('sa-nivel').selectedIndex].text;
+            const actividades = document.getElementById('sa-actividades').value;
+
+            // Extraer colecciones guardadas en las listas
+            const ces = Array.from(document.getElementById('lista-ce').children).map(li => li.textContent);
+            const cas = Array.from(document.getElementById('lista-ca').children).map(li => li.textContent);
+            const sabers = Array.from(document.getElementById('lista-sabers').children).map(li => li.textContent);
+
+            // Extraer checks del DUA (Decret 150)
+            const duaSeleccionados = Array.from(document.querySelectorAll('input[name="dua"]:checked')).map(cb => cb.value);
+
+            if(ces.length === 0 || cas.length === 0 || sabers.length === 0) {
+                alert("⚠️ Atenció: Has de seleccionar almenys una Competència, un Criteri i un Saber per complir amb el currículum de la Generalitat.");
+                return;
+            }
+
+            const nuevaPlanificacion = { titulo, materia, nivel, actividades, ces, cas, sabers, duaSeleccionados };
+            planificacionesGuardadas.push(nuevaPlanificacion);
+
+            // Actualizar variante de Almacenamiento (Recursos)
+            actualizarBancoRecursos();
+
+            // Sincronizar y activar Variant 4 (A l'aula) de inmediato
+            cargarEnAula(nuevaPlanificacion);
+            
+            alert("✨ Planificació creada amb èxit i enviada automàticament al mòdul 'A l'Aula'.");
+            switchTab('tab-aula');
+        }
+
+        function actualizarBancoRecursos() {
+            const contenedor = document.getElementById('contenedor-archivos');
+            // Mantener el de muestra y añadir nuevos
+            contenedor.innerHTML = `
+                <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-indigo-900 text-sm">Exemple Oficial: Ecosistemes i Sostenibilitat</h3>
+                        <p class="text-xs text-gray-500 mt-1">Medi Natural | 5è Primària | DUA actiu</p>
+                    </div>
+                    <button onclick="alert('Exportant...')" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-900 text-xs font-bold px-3 py-1.5 rounded-lg">⬇️ Exportar</button>
+                </div>
+            `;
+
+            planificacionesGuardadas.forEach((plan, index) => {
+                const div = document.createElement('div');
+                div.className = "p-4 border border-indigo-200 rounded-xl bg-indigo-50/50 flex justify-between items-start";
+                div.innerHTML = `
+                    <div>
+                        <h3 class="font-bold text-indigo-900 text-sm">${plan.titulo}</h3>
+                        <p class="text-xs text-gray-600 mt-1">${plan.materia} | ${plan.nivel}</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="cargarPlanDesdeBanco(${index})" class="bg-amber-500 text-slate-950 text-xs font-bold px-2.5 py-1.5 rounded-lg hover:bg-amber-600">🧑‍🏫 Activar</button>
+                        <button onclick="alert('Generant PDF formal per a Inspecció d\\'Ensenyament...')" class="bg-indigo-950 text-white text-xs font-bold px-2.5 py-1.5 rounded-lg hover:bg-black">⬇️ Exportar</button>
+                    </div>
+                `;
+                contenedor.appendChild(div);
+            });
+        }
+
+        function cargarPlanDesdeBanco(index) {
+            cargarEnAula(planificacionesGuardadas[index]);
+            switchTab('tab-aula');
+        }
+
+        function cargarEnAula(plan) {
+            document.getElementById('aula-titulo-sa').textContent = `${plan.titulo} (${plan.nivel})`;
+            document.getElementById('aula-secuencia').textContent = plan.actividades;
+
+            // Formatear currículum lateral
+            let htmlCurriculum = `<p class="font-semibold text-amber-400 mt-2">Competències:</p><ul class="list-disc pl-4">`;
+            plan.ces.forEach(c => htmlCurriculum += `<li>${c}</li>`);
+            htmlCurriculum += `</ul><p class="font-semibold text-amber-400 mt-2">Criteris:</p><ul class="list-disc pl-4">`;
+            plan.cas.forEach(c => htmlCurriculum += `<li>${c}</li>`);
+            htmlCurriculum += `</ul><p class="font-semibold text-amber-400 mt-2">Sabers:</p><ul class="list-disc pl-4">`;
+            plan.sabers.forEach(s => htmlCurriculum += `<li>${s}</li>`);
+            htmlCurriculum += `</ul>`;
+            document.getElementById('aula-curriculum').innerHTML = htmlCurriculum;
+
+            // Pautas DUA
+            if(plan.duaSeleccionados.length > 0) {
+                document.getElementById('aula-dua-pautas').innerHTML = `<strong>Estratègies aplicades avui:</strong> <br> • ` + plan.duaSeleccionados.join('<br> • ');
+            } else {
+                document.getElementById('aula-dua-pautas').textContent = "Pautes universals de flexibilitat d'espais i agrupaments.";
+            }
+        }
+
+        // CÓDIGO DEL MÓDULO DE CRONÓMETRO ("A L'AULA")
+        let timerInterval;
+        let timeRemaining = 1200; // 20 minutos por defecto
+        let timerRunning = false;
+
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer');
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                btn.textContent = "⏱️ Reprendre";
+                btn.className = "bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold p-2 rounded-lg text-sm";
+                timerRunning = false;
+            } else {
+                timerRunning = true;
+                btn.textContent = "⏸️ Pausa";
+                btn.className = "bg-red-600 hover:bg-red-700 text-white font-bold p-2 rounded-lg text-sm";
+                timerInterval = setInterval(() => {
+                    if (timeRemaining <= 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById('timer-display').textContent = "00:00";
+                        alert("🔔 Temps de l'activitat finalitzat! Canvi de fase de la sessió.");
+                    } else {
+                        timeRemaining--;
+                        let mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                        let secs = (timeRemaining % 60).toString().padStart(2, '0');
+                        document.getElementById('timer-display').textContent = `${mins}:${secs}`;
+                    }
+                }, 1000);
+            }
+        }
+
+        // Inicialización automática de desplegables
+        window.onload = () => { actualizarCurriculum(); };
+    </script>
+</body>
+</html>
